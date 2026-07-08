@@ -1,0 +1,1401 @@
+{
+  "info": {
+    "_postman_id": "44347bca-1277-476d-aab4-68dd292416f6",
+    "name": "opencart_API_modules",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53714322",
+    "_collection_link": "https://go.postman.co/collection/53714322-44347bca-1277-476d-aab4-68dd292416f6?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "session",
+      "item": [
+        {
+          "name": "create session/Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//capturing REsponse \r",
+                  "var jsonData = pm.response.json();\r",
+                  "\r",
+                  "//validating json Response\r",
+                  "pm.test(\"Checking success message inn repsonse\", () =>{\r",
+                  "    pm.expect(jsonData.success).to.eql(\"Success: API session successfully started!\");\r",
+                  "});\r",
+                  "\r",
+                  "//creating collection variable to store api_token\r",
+                  "pm.collectionVariables.set(\"api_token_val\", jsonData.api_token)\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "demo12",
+                  "description": "Get it from opencart admin",
+                  "type": "text",
+                  "uuid": "87d3ce3a-71d2-464e-823f-ee2446a9ce34"
+                },
+                {
+                  "key": "key",
+                  "value": "BGczdDg0Np25I6DlFnt8mF60bDdBmRwiqMnhcWnttHqAbOtZkod7YttiA57RvQRDSFs3miQwRFqwlg3kXQQHLSYill6qWVTP8wvXUFgidGdfv8aq8VmRMofUrYty0OzZeCg7KdP2D20BO32AlZUK4w0SxpWlYdmFhIvX5onzc0fEgutAgtLVOzyUkXnyzD7tmG4l2cDhrhW8W0QUv1w0ed6xhEglw3o0jFucxx2UidZLeKt3NWIWFRBnK4T2JA8Y",
+                  "description": "Get it from opencart admin",
+                  "type": "text",
+                  "uuid": "813072ac-da8a-4790-98a1-60b9d971410d"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost/opencart/upload/index.php?route=api/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "opencart",
+                "upload",
+                "index.php"
+              ],
+              "query": [
+                {
+                  "key": "route",
+                  "value": "api/login"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "item": [
+        {
+          "name": "Add product to cart",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.set(\"product_id\" , \"40\");\r",
+                  "pm.collectionVariables.set(\"quantity\" , \"2\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//validating json response \r",
+                  "pm.test(\"Checking success message in response\" , () => {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.success).to.eql( \"Success: You have modified your shopping cart!\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "product_id",
+                  "value": "{{product_id}}",
+                  "type": "text",
+                  "uuid": "72950bc6-a021-4297-b769-26fd212ee789"
+                },
+                {
+                  "key": "quantity",
+                  "value": "{{quantity}}",
+                  "type": "text",
+                  "uuid": "eb788e04-4c23-4f4d-bca7-0c0fe5d4a621"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost/opencart/upload/index.php?route=api/cart/add",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "opencart",
+                "upload",
+                "index.php"
+              ],
+              "query": [
+                {
+                  "key": "route",
+                  "value": "api/cart/add"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "cart content",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "var jsonData=JSON.parse(responseBody);\r",
+                  "pm.environment.set(\"cart_id_key\" , jsonData.products[0].cart_id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true,
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "product_id",
+                  "value": "{{product_id}}",
+                  "type": "text",
+                  "uuid": "72950bc6-a021-4297-b769-26fd212ee789"
+                },
+                {
+                  "key": "",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "eb788e04-4c23-4f4d-bca7-0c0fe5d4a621"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/cart/products",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "cart",
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit cart content",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  "    pm.test(\"Status code is 200\", function () {\r",
+                  "        pm.response.to.have.status(200);\r",
+                  "    });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "key",
+                  "value": "{{cart_id_key}}",
+                  "type": "text",
+                  "uuid": "bd810f4d-1ca3-4967-be8f-256c3d5f160a"
+                },
+                {
+                  "key": "quantity",
+                  "value": "5",
+                  "type": "text",
+                  "uuid": "96f063ab-a507-4349-8766-a23e0d3ab20c"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/cart/edit",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "cart",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove cart content",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//validating json response\r",
+                  "pm.test(\"checking success message in response\" , () => {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.success).to.eql(\"Success: You have modified your shopping cart!\");\r",
+                  "});\r",
+                  "\r",
+                  "//un-setting collection variables\r",
+                  "\r",
+                  "//pm.collectionVariables.unset(\"product_id\")\r",
+                  "//pm.collectionVariables.unset(\"quantity\")\r",
+                  "//pm.environment.unset(\"cart_id_key\")\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "key",
+                  "value": "{{cart_id_key}}",
+                  "type": "text",
+                  "uuid": "70874619-39a1-479f-a5e1-6c35534a1c63"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/cart/remove",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "cart",
+                "remove"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customer",
+      "item": [
+        {
+          "name": "negative shipping address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//Validating success message\r",
+                  "pm.test(\"Checking success message in response\" , () => {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.success).to.eql( \"You have successfully modified customers\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstname",
+                  "value": "john",
+                  "type": "text",
+                  "uuid": "25a6bef3-0a42-4156-8659-2e88dd25bca8"
+                },
+                {
+                  "key": "lastname",
+                  "value": "smith",
+                  "type": "text",
+                  "uuid": "11ad7066-e654-4d61-badb-57f89b218d93"
+                },
+                {
+                  "key": "email",
+                  "value": "johnsmith@gmail.com",
+                  "type": "text",
+                  "uuid": "d9d30f76-abfc-426f-83d0-6fd855e7be5f"
+                },
+                {
+                  "key": "telephone",
+                  "value": "9133717426",
+                  "type": "text",
+                  "uuid": "c958f83e-66a4-4b2f-be9c-444ab76e7db0"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/customer&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "customer&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Shipping",
+      "item": [
+        {
+          "name": "Add shipping Address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// \"success\":validating success message \r",
+                  "//pm.test(\"success message is correct\" , () =>{\r",
+                  "  //  var jsonData = pm.response.json();\r",
+                  "    //pm.expect(jsonData.success).to.eql(\"Success: Shipping address has been set!\")\r",
+                  "//})\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstname",
+                  "value": "john",
+                  "type": "text",
+                  "uuid": "1f41c13d-b735-4f9e-8c92-03102cccff9b"
+                },
+                {
+                  "key": "lastname",
+                  "value": "smith",
+                  "type": "text",
+                  "uuid": "d5f6bee4-945d-4e45-86ae-0a26f99fdf39"
+                },
+                {
+                  "key": "address_1",
+                  "value": "Hyderabad",
+                  "type": "text",
+                  "uuid": "49bc7f40-f3bd-45aa-ae41-74a6072d193d"
+                },
+                {
+                  "key": "address_2",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "ed548583-dc53-4705-b493-9966c23a2efe"
+                },
+                {
+                  "key": "city",
+                  "value": "Hyderabad",
+                  "type": "text",
+                  "uuid": "16f6aa37-deae-43eb-aa9d-9cd744f25f92"
+                },
+                {
+                  "key": "postcode",
+                  "value": "500072",
+                  "type": "text",
+                  "uuid": "dab10575-c634-48e6-b35a-a290eac7e8df"
+                },
+                {
+                  "key": "country_id",
+                  "value": "99",
+                  "type": "text",
+                  "uuid": "700cf3fe-0264-4dd9-9788-a639a5046df6"
+                },
+                {
+                  "key": "zone_id",
+                  "value": "4231",
+                  "type": "text",
+                  "uuid": "acd26bb0-10d4-4375-a2b3-1e3f33cab6e4"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/shipping/address&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "shipping",
+                "address&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get shipping address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//setting variable value\r",
+                  "var jsonData = pm.response.json();\r",
+                  "pm.collectionVariables.set(\"shipping_method\" , \"flat.flat\");\r",
+                  "\r",
+                  "//validating shipping method has been set\r",
+                  "pm.test(\"shipping_method variable is stored\" ,() =>{\r",
+                  "    pm.expect(pm.collectionVariables.get(\"shipping_method\")).to.eql(\"flat.flat\");\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "    \r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{base_url}}api/shipping/methods&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "shipping",
+                "methods&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "set shipping Method",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "//Validating success message \r",
+                  "//pm.test(\"Success message is correct\" , () =>{\r",
+                  "  //  var jsonData = pm.response.json();\r",
+                  "    //pm.expect(jsonData.success).to.eql(\"Success: Shipping method has been set!\")\r",
+                  "//});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "shipping_method",
+                  "value": "{{shipping_method}}",
+                  "type": "text",
+                  "uuid": "00011ea1-e576-4ddc-a755-2186cf577f4c"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/shipping/method&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "shipping",
+                "method&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "Add payment Address",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//Validating response time \r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Successful POST request\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 202]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"success message in response\" , () =>{\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.success).to.eql(\"Success: Payment address has been set!\")\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstname",
+                  "value": "john",
+                  "type": "text",
+                  "uuid": "687d5188-21cc-4ebe-9786-4d94689f29e1"
+                },
+                {
+                  "key": "lastname",
+                  "value": "smith",
+                  "type": "text",
+                  "uuid": "badfeb0b-c198-4e38-b2cb-f9a1ef147a62"
+                },
+                {
+                  "key": "company",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "89fd530c-1fc9-42e1-813f-d9cc1be2c945"
+                },
+                {
+                  "key": "address_1",
+                  "value": "Hyderabad",
+                  "type": "text",
+                  "uuid": "bca3bc3e-c365-4623-aaf3-5f3ea06b25b6"
+                },
+                {
+                  "key": "address_2",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "14759575-5ff7-4355-8c13-44693edff05d"
+                },
+                {
+                  "key": "city",
+                  "value": "Hyderabad",
+                  "type": "text",
+                  "uuid": "762b50da-6271-443f-b611-b450d9123095"
+                },
+                {
+                  "key": "postcode",
+                  "value": "500072",
+                  "type": "text",
+                  "uuid": "12c2ee15-80df-446d-8b17-926874369f63"
+                },
+                {
+                  "key": "country_id",
+                  "value": "99",
+                  "type": "text",
+                  "uuid": "3787fa10-b3b8-4415-968a-d862a6f3da4c"
+                },
+                {
+                  "key": "zone_id",
+                  "value": "1493",
+                  "type": "text",
+                  "uuid": "4039fd3c-21c1-4b0d-9fae-04ff3a229556"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/payment/address&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "payment",
+                "address&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get payment methods",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//Validating Response time\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "\r",
+                  "var jsonData = pm.response.json();\r",
+                  "pm.collectionVariables.set(\"payment_method\" , \"cod\");\r",
+                  "\r",
+                  "pm.test(\"Payment_method variable is stored\" , () => {\r",
+                  "    pm.expect(pm.collectionVariables.get(\"payment_method\")).to.not.be.empty;   \r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{base_url}}api/payment/methods&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "payment",
+                "methods&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Set payment method",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//VAlidating Response time\r",
+                  "pm.test(\"Response time is less than 2000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "//Validating success message \r",
+                  "//pm.test(\"Success message is stored\" , () =>{\r",
+                  "  //  var jsonData = pm.response.json();\r",
+                  "    //pm.expect(jsonData.success).to.eql(\"Success: Payment method has been set!\");\r",
+                  "//});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "payment_method",
+                  "value": "{{payment_method}}",
+                  "type": "text",
+                  "uuid": "e403ce31-b908-461e-a65b-cc7ccb83ce1f"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/payment/method&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "payment",
+                "method&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "Create order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//Validating Response time\r",
+                  "pm.test(\"Response time is less than 200000ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(20000);\r",
+                  "});\r",
+                  "\r",
+                  "var rawBody = pm.response.text();\r",
+                  "var jsonStartIndex = rawBody.indexOf('{');\r",
+                  "\r",
+                  "if (jsonStartIndex !== -1) {\r",
+                  "    var jsonString = rawBody.substring(jsonStartIndex);\r",
+                  "    var jsonData = JSON.parse(jsonString);\r",
+                  "    pm.collectionVariables.set(\"order_id\", jsonData.order_id);\r",
+                  "} else {\r",
+                  "    console.error(\"No JSON found in response body\");\r",
+                  "}\r",
+                  "\r",
+                  "//pm.test(\"Order id ids stored\" , () =>{\r",
+                  " //   pm.expect(pm.collectionVariables.get(\"order_id\")).to.exist;   \r",
+                  "//});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{base_url}}api/order/add&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "order",
+                "add&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get order info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}api/order/info&api_token={{api_token_val}}&order_id={{order_id}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "order",
+                "info&api_token={{api_token_val}}&order_id={{order_id}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Negative test cases",
+      "item": [
+        {
+          "name": "invalid Add to cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "//validating json response \r",
+                  "//pm.test(\"Checking error message in response\" , () => {\r",
+                  " //   var jsonData = pm.response.json();\r",
+                  "  //  pm.expect(jsonData.success).to.eql(\"Product can not be bought from the store you have choosen!\")\r",
+                  "    \r",
+                  "//});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "product_id",
+                  "value": "99999",
+                  "type": "text",
+                  "uuid": "36de48a3-231d-45ed-9d4d-ccfb293fdb31"
+                },
+                {
+                  "key": "quantity",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "d98df917-eb51-4161-a910-b55a08014183"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost/opencart/upload/index.php?route=api/cart/add",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "opencart",
+                "upload",
+                "index.php"
+              ],
+              "query": [
+                {
+                  "key": "route",
+                  "value": "api/cart/add"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "invalid shipping address",
+          "protocolProfileBehavior": {
+            "followAuthorizationHeader": true
+          },
+          "request": {
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "value",
+                  "value": "{{api_token_val}}",
+                  "type": "string"
+                },
+                {
+                  "key": "in",
+                  "value": "query",
+                  "type": "string"
+                },
+                {
+                  "key": "key",
+                  "value": "api_token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstname",
+                  "value": "james",
+                  "type": "text",
+                  "uuid": "810793f3-8d1d-45f7-8833-73ecf491c02f"
+                },
+                {
+                  "key": "lastname",
+                  "value": "smith",
+                  "type": "text",
+                  "uuid": "ba553860-d134-45e3-a321-19d6568ab7cd"
+                },
+                {
+                  "key": "address_1",
+                  "value": "Hyderabad",
+                  "type": "text",
+                  "uuid": "e8b24e59-6fb0-4dfd-941f-a31aed2a6830"
+                },
+                {
+                  "key": "address_2",
+                  "value": "",
+                  "type": "text",
+                  "uuid": "19607468-4183-4821-9c7f-6623693c0c39"
+                },
+                {
+                  "key": "City",
+                  "value": "Hyderabad",
+                  "type": "text",
+                  "uuid": "83de2ff4-f1a3-4320-b5f9-fc0d1eb63d8c"
+                },
+                {
+                  "key": "postcode",
+                  "value": "500072",
+                  "type": "text",
+                  "uuid": "18fa486c-a949-4a66-8ca9-c4449ab6355c"
+                },
+                {
+                  "key": "zone_id",
+                  "value": "4231",
+                  "type": "text",
+                  "uuid": "abeeeeee-d11a-430f-8730-04d82cf18947"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}api/shipping/address&api_token={{api_token_val}}",
+              "host": [
+                "{{base_url}}api"
+              ],
+              "path": [
+                "shipping",
+                "address&api_token={{api_token_val}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "ip",
+      "value": ""
+    },
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "api_token_val",
+      "value": ""
+    },
+    {
+      "key": "product_id",
+      "value": ""
+    },
+    {
+      "key": "quantity",
+      "value": ""
+    },
+    {
+      "key": "payment_method",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": ""
+    },
+    {
+      "key": "shipping_method",
+      "value": ""
+    }
+  ]
+}
